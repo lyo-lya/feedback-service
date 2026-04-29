@@ -3,8 +3,9 @@ import json
 from dotenv import load_dotenv
 from azure.servicebus import ServiceBusClient
 from sqlalchemy import text
-from db import engine
+from app.db import engine
 from datetime import datetime
+from app.logger import logger
 
 load_dotenv()
 
@@ -26,7 +27,7 @@ def listen_to_queue():
                 body = b"".join(msg.body).decode("utf-8")
                 data = json.loads(body)
 
-                print("Received:", data)
+                logger.info(f"Received event: {data}")
 
                 with engine.connect() as conn:
                     conn.execute(

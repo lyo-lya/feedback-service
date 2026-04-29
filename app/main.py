@@ -2,6 +2,8 @@ from fastapi import FastAPI
 import threading
 import time
 from service_bus_listener import listen_to_queue
+from logger import logger
+import os
 
 app = FastAPI(title="Feedback Service")
 
@@ -23,13 +25,16 @@ def background_worker():
         try:
             listen_to_queue()
         except Exception as e:
-            print("Error in worker:", e)
+            logger.error(f"Worker error: {e}")
 
         time.sleep(5)
 
 
 @app.on_event("startup")
 def start_worker():
+    if os.getenv("TESTING") == "1":
+        return
+
     thread = threading.Thread(target=background_worker)
     thread.daemon = True
     thread.start()
