@@ -1,3 +1,4 @@
+import os
 import urllib
 from sqlalchemy import create_engine
 from app.config import DB_DRIVER, DB_SERVER, DB_DATABASE, DB_USERNAME, DB_PASSWORD

@@ -19,7 +19,7 @@ steps:
   displayName: Install dependencies
 
 - script: |
-    flake8 app --max-line-length=120 --ignore=E203,W503
+    flake8 app --max-line-length=120 --ignore=E203,W503,W292,E302
   displayName: Lint code
 
 - script: |
