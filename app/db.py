@@ -1,16 +1,22 @@
 import urllib
 from sqlalchemy import create_engine
-from config import *
+from app.config import DB_DRIVER, DB_SERVER, DB_DATABASE, DB_USERNAME, DB_PASSWORD
 
-connection_string = (
-    f"Driver={{{DB_DRIVER}}};"
-    f"Server=tcp:{DB_SERVER},1433;"
-    f"Database={DB_DATABASE};"
-    f"Uid={DB_USERNAME};"
-    f"Pwd={DB_PASSWORD};"
-    "Encrypt=yes;"
-)
+TESTING = os.getenv("TESTING")
 
-params = urllib.parse.quote_plus(connection_string)
+if TESTING:
+    # Use in-memory SQLite for tests
+    engine = create_engine("sqlite:///:memory:")
+else:
+    connection_string = (
+        f"Driver={{{DB_DRIVER}}};"
+        f"Server=tcp:{DB_SERVER},1433;"
+        f"Database={DB_DATABASE};"
+        f"Uid={DB_USERNAME};"
+        f"Pwd={DB_PASSWORD};"
+        "Encrypt=yes;"
+    )
 
-engine = create_engine(f"mssql+pyodbc:///?odbc_connect={params}")
+    params = urllib.parse.quote_plus(connection_string)
+
+    engine = create_engine(f"mssql+pyodbc:///?odbc_connect={params}")

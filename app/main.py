@@ -1,8 +1,8 @@
 from fastapi import FastAPI
 import threading
 import time
-from service_bus_listener import listen_to_queue
-from logger import logger
+from app.service_bus_listener import listen_to_queue
+from app.logger import logger
 import os
 
 app = FastAPI(title="Feedback Service")
