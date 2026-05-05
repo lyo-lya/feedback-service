@@ -5,7 +5,7 @@ from app.main import app
 client = TestClient(app)
 
 
-@patch("app.main.engine.connect")
+@patch("app.db.engine.connect")
 def test_get_feedback(mock_connect):
     # fake DB row
     mock_conn = MagicMock()
