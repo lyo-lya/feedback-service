@@ -4,6 +4,7 @@ import time
 from app.service_bus_listener import listen_to_queue
 from app.logger import logger
 import os
+from app.db import engine
 
 app = FastAPI(title="Feedback Service")
 

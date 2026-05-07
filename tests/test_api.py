@@ -1,13 +1,16 @@
-from fastapi.testclient import TestClient
 from unittest.mock import patch, MagicMock
-from app.main import app
 
-client = TestClient(app)
+
+def test_get_feedback(client):
+    response = client.get("/feedback")
+
+    assert response.status_code == 200
+    assert isinstance(response.json(), list)
 
 
 @patch("app.db.engine.connect")
-def test_get_feedback(mock_connect):
-    # fake DB row
+def test_feedback_db_mock(mock_connect, client):
+
     mock_conn = MagicMock()
     mock_result = MagicMock()
 
@@ -27,5 +30,4 @@ def test_get_feedback(mock_connect):
     response = client.get("/feedback")
 
     assert response.status_code == 200
-    assert isinstance(response.json(), list)
     assert response.json()[0]["feedbackId"] == 1
